@@ -12,14 +12,13 @@ namespace EmailManager.Controllers
 {
     public class UserController : Controller
     {
-        private static readonly log4net.ILog log =
-        log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private readonly IUserServices _userService;
-
+        private static readonly log4net.ILog log =
+      log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public UserController(IUserServices userService)
         {
-            this._userService = userService;
+            _userService = userService;
         }
 
         public async Task<IActionResult> Index(int? currentPage, string search = null)
@@ -63,11 +62,10 @@ namespace EmailManager.Controllers
 
         public IActionResult Detail(string userId)
         {
-            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+           // var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var user = _userService.GetUserById(userId);
             var userModel = UserMapper.MapFromUser(user, _userService);
 
-            log.Info($"User with id: {currentUserId}, opened user detail page. User Id: {userId}");
 
             return View("Detail", userModel);
         }

@@ -91,7 +91,7 @@ namespace EmailManager.Services.Implementation
                     string date = emailFullResponse.Payload.Headers
                         .FirstOrDefault(d => d.Name == "Date").Value;
 
-                    string editedDate = date.Remove(date.IndexOf('+') - 1);
+                    string editedDate = date.Remove(startIndex: date.IndexOf('+') - 1);
 
                     //Checking whether the emails are saved or not 
                     Email emailCheck = _context.Emails

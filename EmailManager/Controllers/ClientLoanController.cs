@@ -25,7 +25,7 @@ namespace EmailManager.Controllers
         {
             var email = _emailService.GetEmail(id);
 
-            var emailModel = EmailMapper.MapFromEmail(email, _emailService);
+            var emailModel = EmailMapper.MapFromEmail(email);
 
             log.Info($"User opened email detail page. Email Id: {id}");
 

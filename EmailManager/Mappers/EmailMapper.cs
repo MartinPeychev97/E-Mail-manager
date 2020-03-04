@@ -7,7 +7,7 @@ namespace EmailManager.Mappers
 {
     public static class EmailMapper
     {
-        public static EmailViewModel MapFromEmail(this Email email, IEmailService emailService)
+        public static EmailViewModel MapFromEmail(this Email email)
         {
             var emailListing = new EmailViewModel
             {
@@ -19,11 +19,11 @@ namespace EmailManager.Mappers
                 ReceiveDate = email.ReceiveDate,
                 StatusChangedBy = email.User.UserName,
                 InCurrentStatusSince = email.Status.NewStatus,
-                EnumStatus = emailService.GetStatus(email.EmailId),
+                //EnumStatus = emailService.GetStatus(email.EmailId),
                 CurrentUser = email.User.UserName,
                 HasAttachments = email.HasAttachments,
-                AttachmentName = emailService.GetAttachment(email.Id).FileName,
-                AttachmentSize = emailService.GetAttachment(email.Id).AttachmentSizeKb,
+                //AttachmentName = emailService.GetAttachment(email.Id).FileName,
+                //AttachmentSize = emailService.GetAttachment(email.Id).AttachmentSizeKb,
             };
 
             return emailListing;

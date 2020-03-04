@@ -39,7 +39,7 @@ namespace EmailManager.Controllers
         }
 
         [ResponseCache(Duration = 7200)]
-        private async void GetEmailsFromGmail()
+        private async Task GetEmailsFromGmail()
         {
             DateTime dateTimeNow = DateTime.UtcNow;
 
@@ -58,7 +58,7 @@ namespace EmailManager.Controllers
         [ResponseCache(Duration = 7200)]
         public async Task<IActionResult> ListAllStatusEmails(int? currentPage, string search = null)
         {
-            GetEmailsFromGmail();
+            await GetEmailsFromGmail();
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var currPage = currentPage ?? 1;
@@ -78,7 +78,8 @@ namespace EmailManager.Controllers
             }
 
             var emailsListing = emailAllResults
-                .Select(m => EmailMapper.MapFromEmail(m, _emailService));
+                .Select(m => EmailMapper.MapFromEmail(m));
+
             var emailModel = EmailMapper.MapFromEmailIndex(emailsListing, currPage, totalPages);
 
             emailModel.CurrentPage = currPage;
