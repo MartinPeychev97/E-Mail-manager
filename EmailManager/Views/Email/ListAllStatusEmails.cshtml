@@ -7,9 +7,9 @@
 
 <form asp-action="ListAllStatusEmails" asp-controller="Email" method="post">
     <div class="input-group mb-1">
-        <input type="text" name="search" id="search" class="btn btn-light btn-outline-secondary" />
+        <input type="text" name="search" id="search" class="btn btn-light btn-outline-success" />
         <div class="input-group-append btn">
-            <input type="submit" value="Search" class="btn btn-outline-secondary" />
+            <input type="submit" value="Search" class="btn btn-outline-success" />
         </div>
     </div>
 </form>
@@ -77,7 +77,7 @@
         <a asp-action="ListAllStatusEmails" asp-route-currentPage="@Model.PreviousPage" class="btn btn-sm btn-lighter btn-auto previous-pagination-button-table" at="@Model.PreviousPage">@Model.PreviousPage</a>
     }
 
-    <button class="btn btn-sm btn-primary btn-auto">@Model.CurrentPage</button>
+    <button class="btn btn-sm btn-primary btn-success">@Model.CurrentPage</button>
 
     @if (Model.NextPage == null)
     {
@@ -88,9 +88,4 @@
         <a asp-action="ListAllStatusEmails" asp-route-currentPage="@Model.NextPage" class="btn btn-sm btn-lighter btn-auto previous-pagination-button-table" at="@Model.NextPage">@Model.NextPage</a>
         <a asp-action="ListAllStatusEmails" asp-route-currentPage="@Model.NextPage" class="btn btn-sm btn-lighter btn-auto next-pagination-button-table" at="@Model.NextPage">Next</a>
     }
-</div>
-
-<p></p>
-<div>
-    <a asp-action="Index" asp-controller="Home"><< Back to home page >></a>
 </div>

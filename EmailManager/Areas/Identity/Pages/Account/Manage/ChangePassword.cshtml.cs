@@ -17,7 +17,6 @@ namespace EmailManager.Areas.Identity.Pages.Account.Manage
 
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly ILogger<ChangePasswordModel> _logger;
 
         public ChangePasswordModel(
             UserManager<User> userManager,

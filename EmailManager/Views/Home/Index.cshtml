@@ -9,14 +9,12 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <h2>to</h2>
-    <h1>Email Manager</h1>
+    <h1 style="font-family: 'Baskerville Old Face'">Welcome to Email Manager</h1>
     @if (!SignInManager.IsSignedIn(User))
     {
         <p></p>
         <p></p>
-        <h3>Please, <ins>login</ins> to use the system.</h3>
+        <h3><ins><partial name="_LoginPartial" /></ins> to use the system.</h3>
     }
 </div>
 
@@ -26,13 +24,13 @@
         <p>@User.Identity.Name, what do you want to do today?</p>
 
         <form>
-            <button asp-controller="Email" asp-action="ListAllStatusEmails" type="submit" class="btn btn-lg btn-outline-info">
+            <button asp-controller="Email" asp-action="ListAllStatusEmails" type="submit" class="btn btn-lg btn-outline-success">
                 Email catalog
             </button>
 
             @if (User.IsInRole("Manager"))
             {
-                <button asp-controller="User" asp-action="Index" type="submit" class="btn btn-lg btn-outline-info">
+                <button asp-controller="User" asp-action="Index" type="submit" class="btn btn-lg btn-outline-success">
                     User catalog
                 </button>
             }

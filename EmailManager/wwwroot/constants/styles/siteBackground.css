@@ -1,0 +1,20 @@
+﻿body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-size: 13pt;
+    background-color: #efefef;
+    padding: 10px;
+    margin: 0;
+}
+
+.bg {
+    /*background-image: url(/constants/Images/testImg3.jpg);*/
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
