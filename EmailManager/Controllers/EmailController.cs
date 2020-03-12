@@ -38,6 +38,7 @@ namespace EmailManager.Controllers
             return View("Detail", emailModel);
         }
 
+        //Custom Email google check - because of email access problems
         [ResponseCache(Duration = 7200)]
         private async void GetEmailsFromGmail()
         {
@@ -55,7 +56,7 @@ namespace EmailManager.Controllers
             }
         }
 
-        [ResponseCache(Duration = 7200)]
+        //For displaying all emails (with pagination of 10 per page)
         public async Task<IActionResult> ListAllStatusEmails(int? currentPage, string search = null)
         {
             GetEmailsFromGmail();
@@ -68,6 +69,7 @@ namespace EmailManager.Controllers
 
             if (!string.IsNullOrEmpty(search))
             {
+                //For email search
                 emailAllResults = await _emailService.SearchEmails(search, currPage, userId);
                 log.Info($"User searched for {search}.");
             }
@@ -81,6 +83,7 @@ namespace EmailManager.Controllers
                 .Select(m => EmailMapper.MapFromEmail(m, _emailService));
             var emailModel = EmailMapper.MapFromEmailIndex(emailsListing, currPage, totalPages);
 
+            //For pagination buttons and distribution
             emailModel.CurrentPage = currPage;
             emailModel.TotalPages = totalPages;
 

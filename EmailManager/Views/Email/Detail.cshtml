@@ -4,7 +4,7 @@
     ViewData["Title"] = "Detail";
 }
 
-<h1>Detail</h1>
+<h1>Details</h1>
 
 <table class="table table-striped text-center" style="border-color: #808080">
     <thead style="color: #2f2c2c">
@@ -41,7 +41,7 @@
 </table>
 
 <p></p>
-<!-- User buttons -->
+@*User buttons*@
 <form method="post">
     @if (!User.IsInRole("Manager"))
     {
@@ -62,7 +62,7 @@
     }
 </form>
 
-<!-- Manager buttons -->
+@*Manager buttons*@
 <form method="post">
     @if (User.IsInRole("Manager"))
     {
@@ -89,7 +89,3 @@
         }
     }
 </form>
-<p></p>
-<div>
-    <a asp-action="Index" asp-controller="Home"><< Back to home page >></a>
-</div>

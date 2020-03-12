@@ -22,29 +22,32 @@ namespace EmailManager.Controllers
             this._userService = userService;
         }
 
+        //For displaying all users (with pagination of 10 per page)
         public async Task<IActionResult> Index(int? currentPage, string search = null)
         {
             var currPage = currentPage ?? 1;
 
             int totalPages = await _userService.GetPageCount(10);
 
-            IEnumerable<User> emailAllResults = null;
+            IEnumerable<User> usersAllResults = null;
 
             if (!string.IsNullOrEmpty(search))
             {
-                emailAllResults = await _userService.SearchUsers(search, currPage);
+                //For user search
+                usersAllResults = await _userService.SearchUsers(search, currPage);
                 log.Info($"User searched for {search} user.");
             }
             else
             {
-                emailAllResults = _userService.GetAll(currPage);
+                usersAllResults = _userService.GetAll(currPage);
                 log.Info("Displayed all user list.");
             }
 
-            var userListing = emailAllResults
+            var userListing = usersAllResults
                 .Select(m => UserMapper.MapFromUser(m, _userService));
             var userModel = UserMapper.MapFromUserIndex(userListing, currPage, totalPages);
 
+            //For pagination buttons and distribution
             userModel.CurrentPage = currPage;
             userModel.TotalPages = totalPages;
 
