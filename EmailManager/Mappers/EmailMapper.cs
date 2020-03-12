@@ -19,11 +19,12 @@ namespace EmailManager.Mappers
                 ReceiveDate = email.ReceiveDate,
                 StatusChangedBy = email.User.UserName,
                 InCurrentStatusSince = email.Status.NewStatus,
-                EnumStatus = emailService.GetStatus(email.EmailId),
+                EnumStatus = email.EnumStatus,
                 CurrentUser = email.User.UserName,
                 HasAttachments = email.HasAttachments,
-                AttachmentName = emailService.GetAttachment(email.Id).FileName,
-                AttachmentSize = emailService.GetAttachment(email.Id).AttachmentSizeKb,
+                //TODO - null за attachmenta
+               //AttachmentName = emailService.GetAttachment(email.Id).FileName,
+               //AttachmentSize = emailService.GetAttachment(email.Id).AttachmentSizeKb,
             };
 
             return emailListing;

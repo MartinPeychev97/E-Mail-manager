@@ -92,7 +92,7 @@ namespace EmailManager.Services.Implementation
             }
             else
             {
-                var decryptClientData = _decrypt.DecryptClientInfo(newClientCheck);
+                Client decryptClientData = await _decrypt.DecryptClientInfo(newClientCheck);
                 newClientCheck = decryptClientData;
 
                 log.Info($"Found excisting client with Id {newClientCheck.ClientId}");

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using EmailManager.Data;
+using EmailManager.Data.Implementation;
 using EmailManager.Mappers;
 using EmailManager.Models.EmailViewModel;
 using EmailManager.Services.Contracts;
@@ -26,12 +27,12 @@ namespace EmailManager.Controllers
             this._gmailAPIService = gmailAPIService;
         }
         
-        public IActionResult Detail(int id)
+        public async Task<IActionResult> Detail(int id)
         {
-            var email = _emailService.GetEmail(id);
-            var emailAttachments = _emailService.GetAttachment(id);
+            Email email = await _emailService.GetEmail(id);
+            Attachment emailAttachments = await _emailService.GetAttachment(id);
 
-            var emailModel = new EmailViewModel(email, emailAttachments);
+            EmailViewModel emailModel = new EmailViewModel(email, emailAttachments);
 
             log.Info($"User opened email detail page. Email Id: {id}");
 
@@ -61,8 +62,8 @@ namespace EmailManager.Controllers
         {
             GetEmailsFromGmail();
 
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var currPage = currentPage ?? 1;
+            string userId = FindUserById();
+            int currPage = currentPage ?? 1;
             int totalPages = await _emailService.GetPageCount(10);
 
             IEnumerable<Email> emailAllResults = null;
@@ -79,9 +80,10 @@ namespace EmailManager.Controllers
                 log.Info($"Displayed all emails list.");
             }
 
-            var emailsListing = emailAllResults
+            IEnumerable<EmailViewModel> emailsListing = emailAllResults
                 .Select(m => EmailMapper.MapFromEmail(m, _emailService));
-            var emailModel = EmailMapper.MapFromEmailIndex(emailsListing, currPage, totalPages);
+
+            EmailIndexViewModel emailModel = EmailMapper.MapFromEmailIndex(emailsListing, currPage, totalPages);
 
             //For pagination buttons and distribution
             emailModel.CurrentPage = currPage;
@@ -104,7 +106,7 @@ namespace EmailManager.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> MarkNew(int id)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string userId = FindUserById();
             int emailId = id;
 
             try
@@ -132,7 +134,7 @@ namespace EmailManager.Controllers
                 return View(viewModel);
             }
 
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string userId = FindUserById();
             int emailId = viewModel.Id;
 
             try
@@ -160,7 +162,7 @@ namespace EmailManager.Controllers
                 return View(viewModel);
             }
 
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string userId = FindUserById();
             int emailId = viewModel.Id;
 
             try
@@ -188,7 +190,7 @@ namespace EmailManager.Controllers
                 return View(viewModel);
             }
 
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string userId = FindUserById();
             int emailId = viewModel.Id;
 
             try
@@ -217,7 +219,7 @@ namespace EmailManager.Controllers
                 return View(viewModel);
             }
 
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string userId = FindUserById();
             int emailId = viewModel.Id;
 
             try
@@ -234,6 +236,13 @@ namespace EmailManager.Controllers
             }
 
             return RedirectToAction("Detail", new { id = emailId });
+        }
+
+        public string FindUserById()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            return userId;
         }
     }
 }

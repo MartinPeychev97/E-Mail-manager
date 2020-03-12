@@ -122,14 +122,14 @@ namespace EmailManager.Services.Implementation
         }
 
 
-        public Email GetEmail(int emailId)
+        public async Task<Email> GetEmail(int emailId)
         {
-            Email email = _context.Emails
+            Email email = await _context.Emails
                 .Include(m => m.EmailBody)
                 .Include(m => m.Attachments)
                 .Include(m => m.Status)
                 .Include(m => m.User)
-                .FirstOrDefault(m => m.Id == emailId);
+                .FirstOrDefaultAsync(m => m.Id == emailId);
 
             string decryptBody = _decrypt.Base64Decrypt(email.EmailBody.Body);
             email.EmailBody.Body = decryptBody;
@@ -144,28 +144,28 @@ namespace EmailManager.Services.Implementation
             return email;
         }
 
-        public Attachment GetAttachment(int emailId)
+        public async Task<Attachment> GetAttachment(int emailId)
         {
-            Email email = _context.Emails
+            Email email = await _context.Emails
                 .Include(m => m.EmailBody)
                 .Include(m => m.Attachments)
                 .Include(m => m.Status)
                 .Include(m => m.User)
-                .FirstOrDefault(m => m.Id == emailId);
+                .FirstOrDefaultAsync(m => m.Id == emailId);
 
-            var attachment = _context.Attachments
+            Attachment attachment = await _context.Attachments
                 .Include(a => a.Email)
-                .FirstOrDefault(e => email.Id == emailId);
+                .FirstOrDefaultAsync(e => email.Id == emailId);
 
             log.Info($"Server fetch attachment for email with Id: {emailId}");
 
             return attachment;
         }
 
-        public EmailStatus GetStatus(string emailId)
+        public async Task<EmailStatus> GetStatus(string emailId)
         {
-            Email email = _context.Emails
-                .FirstOrDefault(b => b.EmailId == emailId);
+            Email email = await _context.Emails
+                .FirstOrDefaultAsync(b => b.EmailId == emailId);
 
             log.Info($"Email status sent. Email id: {emailId}");
 
@@ -240,7 +240,8 @@ namespace EmailManager.Services.Implementation
                 .Include(a => a.User)
                 .FirstOrDefaultAsync(a => a.Id == emailId);
 
-            var user = _context.Users.FirstOrDefault(x => x.Id == userId);
+            var user = await _context.Users
+                .FirstOrDefaultAsync(x => x.Id == userId);
 
             log.Info($"Status changed: for Email Id: {emailId}; from user Id: {userId};" +
                 $" last status: {email.Status.LastStatus}; new status {email.Status.NewStatus};" +

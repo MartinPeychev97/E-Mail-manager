@@ -10,10 +10,10 @@ namespace EmailManager.Services.Contracts
     {
         Task<IEnumerable<Email>> GetAllStatusEmails(int currentPage, string userId);
 
-        EmailStatus GetStatus(string emailId);
+        Task<EmailStatus> GetStatus(string emailId);
 
-        Email GetEmail(int emailId);
-        Attachment GetAttachment(int emailId);
+        Task<Email> GetEmail(int emailId);
+        Task<Attachment> GetAttachment(int emailId);
 
         Task MarkNewStatus(int loanId, string userId);
         Task MarkClosedApprovedStatus(int emailId, string userId);

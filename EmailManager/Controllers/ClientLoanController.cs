@@ -21,9 +21,9 @@ namespace EmailManager.Controllers
             this._emailService = emailService;
         }
         
-        public IActionResult GetEmailDetails(int id)
+        public async Task<IActionResult> GetEmailDetails(int id)
         {
-            var email = _emailService.GetEmail(id);
+            var email = await _emailService.GetEmail(id);
 
             var emailModel = EmailMapper.MapFromEmail(email, _emailService);
 
@@ -37,7 +37,8 @@ namespace EmailManager.Controllers
         public async Task<IActionResult> CreateLoan(CreateLoanViewModel vm)
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var clientCheck = await _loanService.AddClient(vm.ClientName, vm.ClientPhoneNumber, vm.ClientEGN, vm.ClientEmail, userId);
+            var clientCheck = await _loanService.AddClient(vm.ClientName, vm.ClientPhoneNumber, vm.ClientEGN,
+                vm.ClientEmail, userId);
 
             try
             {

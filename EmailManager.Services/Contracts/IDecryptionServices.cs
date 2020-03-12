@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using EmailManager.Data.Implementation;
 
 namespace EmailManager.Services.Contracts
@@ -8,6 +9,6 @@ namespace EmailManager.Services.Contracts
         string Decrypt(string cipherText);
         IEnumerable<Client> DecryptClientList(IEnumerable<Client> client);
         string Base64Decrypt(string base64EncodedData);
-        Client DecryptClientInfo(Client clientId);
+        Task<Client> DecryptClientInfo(Client clientId);
     }
 }

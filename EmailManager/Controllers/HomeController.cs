@@ -7,12 +7,8 @@ namespace EmailManager.Controllers
 {
 	public class HomeController : Controller
 	{
-		private readonly IGmailAPIService _emailService;
 
-		public HomeController(IGmailAPIService emailService)
-		{
-			this._emailService = emailService;
-		}
+		public HomeController() { }
 
 		public IActionResult Index()
 		{

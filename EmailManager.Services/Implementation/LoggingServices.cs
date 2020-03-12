@@ -1,9 +1,6 @@
 ﻿using EmailManager.Data.Context;
 using EmailManager.Data.Implementation;
 using EmailManager.Services.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace EmailManager.Services.Implementation
@@ -24,8 +21,8 @@ namespace EmailManager.Services.Implementation
                 return false;
             }
 
-            //TO CHECK
-          //  user.LastRegistration = DateTime.Now;
+            //TODO CHECK
+            //user.LastRegistration = DateTime.Now;
             await this._context.SaveChangesAsync();
 
             return true;

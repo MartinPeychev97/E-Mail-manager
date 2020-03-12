@@ -1,12 +1,14 @@
 ﻿using EmailManager.Data.Context;
 using EmailManager.Data.Implementation;
 using EmailManager.Services.Contracts;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EmailManager.Services.Implementation
 {
@@ -26,7 +28,9 @@ namespace EmailManager.Services.Implementation
             byte[] cipherBytes = Convert.FromBase64String(cipherText);
             using (Aes encryptor = Aes.Create())
             {
-                Rfc2898DeriveBytes key = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+                Rfc2898DeriveBytes key = new Rfc2898DeriveBytes(EncryptionKey, new byte[]
+                { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+
                 encryptor.Key = key.GetBytes(32);
                 encryptor.IV = key.GetBytes(16);
                 using (MemoryStream stream = new MemoryStream())
@@ -50,7 +54,12 @@ namespace EmailManager.Services.Implementation
             foreach (var item in client)
             {
                 var egn = Decrypt(item.ClientEGN);
-                clients.Add(new Client { ClientEGN = egn, ClientId = item.ClientId });
+
+                clients.Add(new Client
+                {
+                    ClientEGN = egn,
+                    ClientId = item.ClientId
+                });
             }
             return clients;
         }
@@ -62,10 +71,10 @@ namespace EmailManager.Services.Implementation
             return Encoding.UTF8.GetString(base64EncodedBytes);
         }
 
-        public Client DecryptClientInfo(Client clientId)
+        public async Task<Client> DecryptClientInfo(Client clientId)
         {
-            Client client = _context.Clients
-                .FirstOrDefault(c => c.ClientId == clientId.ClientId);
+            Client client = await _context.Clients
+                .FirstOrDefaultAsync(c => c.ClientId == clientId.ClientId);
 
             string decryptName = Decrypt(client.ClientName);
             string decryptEgn = Decrypt(client.ClientEGN);
