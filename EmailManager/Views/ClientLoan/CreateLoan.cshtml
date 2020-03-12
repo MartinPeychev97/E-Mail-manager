@@ -6,13 +6,9 @@
 
 <h1>Create Loan</h1>
 
-<head>
-    <link rel="stylesheet" href="~/constants/FillFormStyle.css" />
-</head>
-
 <partial name="_CreateLoanPartial" , model="new CreateLoanViewModel {EmailDbId = Model.Id}" />
 
-<div style="color: white">
+<div>
     <form class="form-style-4" method="post" style="float:left">
         <div class="form-group">
             <div class="col">
@@ -22,7 +18,7 @@
                 <div class="row">Body: @Model.Body</div>
                 <p></p>
                 <div>
-                    <a asp-action="Index" asp-controller="Home" style="color: #a09a9a"><< <u>Back to home page</u> >></a>
+                    <a asp-action="Index" asp-controller="Home"><< <u>Back to home page</u> >></a>
                 </div>
             </div>
         </div>

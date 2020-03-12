@@ -4,9 +4,8 @@
     ViewData["Title"] = "Index";
 }
 
-<h3>User catalog</h3>
-
-<form asp-action="Index" asp-controller="User" method="post">
+@*Search button/box*@
+<form asp-action="Index" asp-controller="User" method="post" style="float: right">
     <div class="input-group mb-1">
         <input type="text" name="search" id="search" class="btn btn-light btn-outline-success" />
         <div class="input-group-append btn">
@@ -15,12 +14,16 @@
     </div>
 </form>
 
-<table class="table table-striped text-center" style="border-color: #808080">
+@*User table*@
+<table class="table table-hover text-center" style="background-color: rgba(255, 254, 254, 0.32)">
     <thead style="color: #2f2c2c">
         <tr style="text-align: center">
             <th>User Id</th>
             <th>Full Name</th>
-            <th>Email</th>
+            <th>Username</th>
+            <th>Member Since</th>
+            <th>Last login</th>
+            <th>Ban ends</th>
             <th>Role</th>
             <th></th>
         </tr>
@@ -31,19 +34,23 @@
             <tr>
                 <td>@user.Id</td>
                 <td>@user.Name</td>
-                <td>@user.Email</td>
+                <td>@user.UserName</td>
+                <td>@user.InitialRegistration</td>
+                <td>@user.LastRegistration</td>
+                <td>@user.LockOutEnd</td>
                 <td>@user.Role</td>
                 <td>
                     <form asp-route-userId="@user.Id" asp-action="Detail" asp-controller="User">
-                        <button type="submit" class="btn btn-lg btn-light">Details</button>
+                        <button type="submit" class="btn btn-lg btn-success" style="color: #306013">Details</button>
                     </form>
                 </td>
             </tr>
         }
     </tbody>
 </table>
-
 <p></p>
+
+@*Buttons Previous/Next/Number*@
 <div class="align-content-center">
     @if (Model.PreviousPage == null)
     {

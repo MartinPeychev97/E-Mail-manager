@@ -65,7 +65,8 @@ namespace EmailManager.Data.Seed
                 PhoneNumber = "+111111111",
                 PhoneNumberConfirmed = true,
                 SecurityStamp = Guid.NewGuid().ToString("D"),
-                Role = "Manager"
+                Role = "Manager",
+                InitialRegistration = DateTime.Now,
             };
 
             var hashePass = new PasswordHasher<User>().HashPassword(adminUser, "manager");
@@ -88,7 +89,8 @@ namespace EmailManager.Data.Seed
                 PhoneNumber = "+0895645254",
                 PhoneNumberConfirmed = true,
                 SecurityStamp = Guid.NewGuid().ToString("D"),
-                Role = "Manager"
+                Role = "Manager",
+                InitialRegistration = DateTime.Now,
             };
 
             var hashePass = new PasswordHasher<User>().HashPassword(noUser, "nouser");
@@ -111,7 +113,8 @@ namespace EmailManager.Data.Seed
                 PhoneNumber = "+0895674532",
                 PhoneNumberConfirmed = true,
                 SecurityStamp = Guid.NewGuid().ToString("D"),
-                Role = "Manager"
+                Role = "Manager",
+                InitialRegistration = DateTime.Now,
             };
 
             var hashePass = new PasswordHasher<User>().HashPassword(manager, "banana");
