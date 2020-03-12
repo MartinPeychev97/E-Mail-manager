@@ -39,7 +39,7 @@ namespace EmailManager.Controllers
             }
             else
             {
-                usersAllResults = _userService.GetAll(currPage);
+                usersAllResults = await _userService.GetAll(currPage);
                 log.Info("Displayed all user list.");
             }
 
@@ -64,10 +64,10 @@ namespace EmailManager.Controllers
             return View(userModel);
         }
 
-        public IActionResult Detail(string userId)
+        public async Task<IActionResult> Detail(string userId)
         {
             var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var user = _userService.GetUserById(userId);
+            var user = await _userService.GetUserById(userId);
             var userModel = UserMapper.MapFromUser(user, _userService);
 
             log.Info($"User with id: {currentUserId}, opened user detail page. User Id: {userId}");
@@ -78,11 +78,11 @@ namespace EmailManager.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Manager")]
-        public IActionResult BanUser(string userId)
+        public async Task<IActionResult> BanUser(string userId)
         {
             var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var user = _userService.GetUserById(userId);
-            _userService.BanUser(userId);
+            var user = await _userService.GetUserById(userId);
+            await _userService.BanUser(userId);
 
             var userModel = UserMapper.MapFromUser(user, _userService);
 

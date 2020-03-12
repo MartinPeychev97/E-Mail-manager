@@ -17,34 +17,33 @@ namespace EmailManager.Services.Implementation
 
         private readonly EmailManagerContext _context;
 
-        public UserServices(EmailManagerContext context, UserManager<User> userManager)
+        public UserServices(EmailManagerContext context)
         {
             this._context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public User GetUserById(string id)
+        public async Task<User> GetUserById(string id)
         {
-            return _context.User
-                .FirstOrDefault(a => a.Id == id);
+            return await _context.User
+                .FirstOrDefaultAsync(a => a.Id == id);
         }
 
-        public IEnumerable<User> GetAll(int currentPage)
+        public async Task<IEnumerable<User>> GetAll(int currentPage)
         {
-            IEnumerable<User> userAll = _context.Users
-                     .OrderBy(u => u.Id);
+            IEnumerable<User> userAll = await _context.Users
+                     .OrderBy(u => u.Id)
+                     .ToListAsync();
 
             if (currentPage == 1)
             {
                 userAll = userAll
-                     .Take(10)
-                     .ToList();
+                     .Take(10);
             }
             else
             {
                 userAll = userAll
                     .Skip((currentPage - 1) * 10)
-                    .Take(10)
-                    .ToList();
+                    .Take(10);
             }
 
             log.Info("System listing all users.");
@@ -52,10 +51,10 @@ namespace EmailManager.Services.Implementation
             return userAll;
         }
 
-        public User BanUser(string userId)
+        public async Task<User> BanUser(string userId)
         {
-            var user = _context.Users
-                .FirstOrDefault(u => u.Id == userId);
+            var user = await _context.Users
+                .FirstOrDefaultAsync(u => u.Id == userId);
 
             user.LockoutEnabled = true;
             var bannedTill = user.LockoutEnd = DateTime.Now.AddDays(30);
@@ -68,7 +67,7 @@ namespace EmailManager.Services.Implementation
 
         public async Task<IEnumerable<User>> SearchUsers(string search, int currentPage)
         {
-            IEnumerable<User> searchResult = _context.Users
+            IEnumerable<User> searchResult = await _context.Users
                 .Where(b => b.Name.Contains(search) ||
                        b.UserName.Contains(search) ||
                        b.Email.Contains(search) ||
@@ -76,20 +75,19 @@ namespace EmailManager.Services.Implementation
                        b.Role.ToLower().Contains(search.ToLower())
                        )
                 .OrderBy(b => b.Role)
-                .ThenBy(b => b.Id);
+                .ThenBy(b => b.Id)
+                .ToListAsync();
 
             if (currentPage == 1)
             {
                 searchResult = searchResult
-                    .Take(10)
-                    .ToList();
+                    .Take(10);
             }
             else
             {
                 searchResult = searchResult
                    .Skip((currentPage - 1) * 10)
-                   .Take(10)
-                   .ToList();
+                   .Take(10);
             }
 
             log.Info($"User searched for: {search}");
