@@ -7,6 +7,8 @@ namespace EmailManager.Mappers
 {
     public static class EmailMapper
     {
+        //TODO: Kiro - махнах AttachmentName и AttachmentSize, понеже нещо не се сещам в момента как да го напиша (ако го сложа
+        //само AttachmentName = email.Attachments ми се кара и не ми дава да си избера кое от Attachment-а да взема като prop
         public static EmailViewModel MapFromEmail(this Email email, IEmailService emailService)
         {
             var emailListing = new EmailViewModel
@@ -21,7 +23,7 @@ namespace EmailManager.Mappers
                 InCurrentStatusSince = email.Status.NewStatus,
                 EnumStatus = email.EnumStatus,
                 CurrentUser = email.User.UserName,
-                HasAttachments = email.HasAttachments,
+                HasAttachments = email.HasAttachments,                
                 //TODO - null за attachmenta
                //AttachmentName = emailService.GetAttachment(email.Id).FileName,
                //AttachmentSize = emailService.GetAttachment(email.Id).AttachmentSizeKb,
