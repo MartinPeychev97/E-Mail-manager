@@ -39,7 +39,6 @@ namespace EmailManager.Controllers
             return View("Detail", emailModel);
         }
 
-        //TODO: Kiro - тук е да взема новите писма и да ги запазва в датабазата
         //Custom Email google check - because of email access problems
         [ResponseCache(Duration = 7200)]
         private async void GetEmailsFromGmail()
@@ -49,13 +48,11 @@ namespace EmailManager.Controllers
             dateTimeNow = new DateTime(dateTimeNow.Year, dateTimeNow.Month, dateTimeNow.Day,
                 dateTimeNow.Hour, dateTimeNow.Minute, dateTimeNow.Second, dateTimeNow.Kind);
 
-            //за да не го проверява на всеки клик съм сложила 5 секунди да са минали поне след влизане в каталога
             DateTime dateTimeAfter = dateTimeNow.AddSeconds(5);
 
             if (dateTimeNow <= dateTimeAfter)
             {
                 await _gmailAPIService.SaveEmailsToDB();
-                //тук актуализирам времето (нз дали е нужно) сегашното да е сега, а не да е с добавеното от 5 сек
                 dateTimeNow = DateTime.UtcNow;
             }
         }

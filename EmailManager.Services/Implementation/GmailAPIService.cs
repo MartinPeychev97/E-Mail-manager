@@ -93,7 +93,6 @@ namespace EmailManager.Services.Implementation
 
                     string editedDate = date.Remove(date.IndexOf('+') - 1);
 
-                    //TODO: Kiro
                     //Checking whether the emails are saved or not 
                     Email emailCheck = _context.Emails
                         .FirstOrDefault(e => e.Sender == sender && e.Subject == subject && e.ReceiveDate == editedDate);
